@@ -1,0 +1,18 @@
+#segment .ct-series-a .ct-point,
+#segment .ct-series-a .ct-line,
+#segment .ct-series-a .ct-bar {
+  stroke: rgba(11, 66, 23, 0.8);
+}
+
+#segment .ct-label {
+  color: black;
+}
+
+#segment .ct-label {
+    display: block;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}

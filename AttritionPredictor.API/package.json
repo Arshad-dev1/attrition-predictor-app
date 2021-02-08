@@ -1,0 +1,17 @@
+{
+  "name": "attrition-predictor-service",
+  "description": "Attrition predictor service to fetch relevant attrition data",
+  "version": "0.0.1",
+  "private": true,
+  "license": "private",
+  "author": "cyborgs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mssql": "^4.3.2",
+    "cors": "^2.8.5"
+  }
+}
