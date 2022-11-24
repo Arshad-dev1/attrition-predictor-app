@@ -1,13 +1,17 @@
+
+
 //Initiallising node modules
 const express = require("express");
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const https = require("https");
 const app = express();
+const aws = require("@aws-sdk/client-sagemaker-runtime");
 
 //Setting up server
 const server = app.listen(process.env.PORT || 5000, () => {
   const port = server.address().port;
+  console.log("Server Address",server.address());
   console.log("App now running on port", port);
 });
 
@@ -41,8 +45,8 @@ app.use((req, res, next) => {
 const dbConfig = {
   user: "sa",
   password: "password",
-  server: "localhost",
-  database: "HOWATHON19_CLOUD",
+  server : 'attritiondb.cli4eb85gn5x.ap-southeast-2.rds.amazonaws.com',
+  database: "AttritionDB",
   encrypt: true,
 };
 
@@ -158,44 +162,31 @@ app.get("/api/getMoraleCheckData", (req, res) => {
 // POST API
 app.post("/api/getRealTimePrediction", (req, res) => {
   const dataString = JSON.stringify(req.body);
-  const host = "ussouthcentral.services.azureml.net";
-  const path =
-    "/workspaces/8cdcbe8ce2494d9bb2e585560d9cbbbd/services/2827fa8c80e948c9ba3fc5bd20020429/execute?api-version=2.0&details=true";
-  const apiKey =
-    "mjlXg0rkJAryNm49k4hx6kYEz9LwlF+qv8V2aoYjTPSTWRgnXcPYxqhD2DHYNwmet1EgraykQZNR20zoweAVKg==";
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + apiKey,
+  var params = {
+    Body:req.body /* Strings will be Base-64 encoded on your behalf */, /* required */
+    EndpointName: 'https://runtime.sagemaker.ap-southeast-2.amazonaws.com/endpoints/ShazaamMl-24112022/invocations', /* required */
+    Accept: 'application/json',
+    ContentType: "application/json",
   };
-  const options = {
-    host: host,
-    port: 443,
-    path: path,
-    method: "POST",
-    headers: headers,
-  };
+ 
+  aws.config.loadFromPath('./config.json');
 
-  const callback = (response) => {
-    let str = "";
-    response.on("data", (chunk) => {
-      str += chunk;
-    });
+  const sagemakerruntime = new aws.SageMakerRuntime();
 
-    response.on("end", () => {
-      res.send(str);
-      // console.log(str);
-    });
-  };
-
-  const reqPost = https.request(options, callback);
-  // This is the data we are posting
-  reqPost.write(dataString);
-  reqPost.end();
-
-  reqPost.on("error", (err) => {
-    console.log("Error while connecting to Azure ML :- " + err);
-    res.send(err);
+  sagemakerruntime.invokeEndpoint(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);      
   });
+
+  // //const reqPost = https.request(options, callback);
+  // // This is the data we are posting
+  // reqPost.write(dataString);
+  // reqPost.end();
+
+  // reqPost.on("error", (err) => {
+  //   console.log("Error while connecting to Azure ML :- " + err);
+  //   res.send(err);
+  // });
 });
 
 // PUT API

@@ -9,9 +9,10 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@aws-sdk/client-sagemaker-runtime": "^3.216.0",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mssql": "^4.3.2",
-    "cors": "^2.8.5"
+    "mssql": "^4.3.9"
   }
 }

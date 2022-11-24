@@ -38,7 +38,7 @@ class HeaderLinks extends React.Component {
         <span
           style={{ fontSize: "0.9rem", color: "green", fontWeight: "bold" }}
         >
-          @The Cyborgs
+          @Team Shazam
         </span>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}

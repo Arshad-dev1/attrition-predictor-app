@@ -55,17 +55,15 @@ class RealtimePrediction extends React.Component {
         columnValues.push(selectedVal[factor]);
       }
     });
-    const data = {
-      Inputs: {
-        input1: {
-          ColumnNames: columnNames,
-          Values: [columnValues]
-        }
-      },
-      GlobalParameters: {}
-    };
+    var strJson='{ "data" : {  "features": {';
+    let i =0;
+    for(i=0;i<columnNames.length;i++){
+      strJson += '"' + columnNames[i] +'":["'+columnValues[i]+'"], ';
+    }
+    strJson+="}}}"
+console.log(strJson)
     axios
-      .post(`${config.Endpoint}/getRealTimePrediction`, data)
+      .post(`${config.Endpoint}/getRealTimePrediction`, strJson)
       .then(res => {
         const outColumns = res.data.Results.output1.value.ColumnNames;
         const outValues = res.data.Results.output1.value.Values[0];
