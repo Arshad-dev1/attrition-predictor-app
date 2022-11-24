@@ -4,9 +4,13 @@
   "version": "0.0.1",
   "private": true,
   "license": "private",
-  "author": "cyborgs",
+  "author": "shazam",
   "scripts": {
     "start": "node server.js"
+  },
+  "engines": {
+    "npm": ">=8.0.0 <10.0.0",
+    "node": ">=16.0.0 <18.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-sagemaker-runtime": "^3.216.0",
